@@ -8,8 +8,8 @@ pub enum Instruction {
 
 pub struct Chunk {
   pub instructions: Vec<Instruction>,
-  values: Vec<Value>,
-  lines: Vec<isize>,
+  pub values: Vec<Value>,
+  pub lines: Vec<isize>,
 }
 
 impl Chunk {

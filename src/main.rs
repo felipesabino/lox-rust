@@ -11,7 +11,7 @@ fn main() {
     let constant_index = chunk.add_constant(12.1);
     chunk.add_instruction(Instruction::Constant(constant_index), 123);
 
-    chunk.add_instruction(Instruction::Return, 124);
+    chunk.add_instruction(Instruction::Return, 123);
 
     chunk.disassemble("test chunk".to_string());
 }
