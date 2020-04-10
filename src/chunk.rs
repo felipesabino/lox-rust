@@ -3,6 +3,11 @@ pub type ConstantIndex = usize;
 
 pub enum Instruction {
   Constant(ConstantIndex),
+  Add,
+  Subtract,
+  Multiply,
+  Divide,
+  Negate,
   Return,
 }
 

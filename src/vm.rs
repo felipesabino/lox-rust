@@ -1,4 +1,5 @@
 use crate::chunk::{Value, Chunk, Instruction::*};
+use crate::debug::disassemble_instruction;
 
 // const STACK_MAX: isize = 256;
 
@@ -35,6 +36,10 @@ impl<'lifetime> VM<'lifetime> {
     }
   }
 
+  fn binary_operation_values(&mut self) -> (Value, Value) {
+    return (self.pop(), self.pop());
+  }
+
   pub fn run(&mut self) -> InterpreterResult {
 
     loop {
@@ -56,6 +61,26 @@ impl<'lifetime> VM<'lifetime> {
         Constant(index) => {
           let value = self.chunk.values[*index];
           self.push(value);
+        },
+        Negate => {
+          let value = self.pop();
+          self.push(-value);
+        },
+        Add => {
+          let (b, a) = self.binary_operation_values();
+          self.push(b + a);
+        },
+        Subtract => { // TODO: can I avoid these repetitions? with macro? how to pass the operation as an argument?
+          let (b, a) = self.binary_operation_values();
+          self.push(b - a);
+        },
+        Multiply => {
+          let (b, a) = self.binary_operation_values();
+          self.push(b * a);
+        },
+        Divide => {
+          let (b, a) = self.binary_operation_values();
+          self.push(b / a);
         },
         Return => {
           println!("{:04}", self.pop());

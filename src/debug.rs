@@ -29,6 +29,11 @@ pub fn disassemble_instruction(chunk: &Chunk, instruction: &Instruction, offset:
 
   match instruction {
     Constant(index) => disassemble_constant_instruction(chunk, *index),
+    Negate => disassemble_simple_instruction("NEGATE"),
+    Add => disassemble_simple_instruction("ADD"),
+    Subtract => disassemble_simple_instruction("SUBTRACT"),
+    Multiply => disassemble_simple_instruction("MULTIPLY"),
+    Divide => disassemble_simple_instruction("DIVIDE"),
     Return => disassemble_simple_instruction("RETURN"),
   }
 }
