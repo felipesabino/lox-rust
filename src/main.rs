@@ -13,5 +13,5 @@ fn main() {
 
     chunk.add_instruction(Instruction::Return, 123);
 
-    chunk.disassemble("test chunk".to_string());
+    chunk.disassemble("test chunk");
 }

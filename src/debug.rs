@@ -1,11 +1,11 @@
 use crate::chunk::{Chunk, Instruction, Instruction::*};
 
 pub trait Debug {
-  fn disassemble(&self, name: String);
+  fn disassemble(&self, name: &str);
 }
 
 impl Debug for Chunk {
-  fn disassemble(&self, name: String) {
+  fn disassemble(&self, name: &str) {
     println!("== {} ==", name);
 
     for i in 0..self.instructions.len() {
@@ -29,11 +29,11 @@ fn disassemble_instruction(chunk: &Chunk, instruction: &Instruction, offset: usi
 
   match instruction {
     Constant(index) => disassemble_constant_instruction(chunk, *index),
-    Return => disassemble_simple_instruction("RETURN".to_string()),
+    Return => disassemble_simple_instruction("RETURN"),
   }
 }
 
-fn disassemble_simple_instruction(name: String) {
+fn disassemble_simple_instruction(name: &str) {
   println!("{:<16}", name);
 }
 
