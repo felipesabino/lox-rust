@@ -1,6 +1,6 @@
 # Lox-Rust
 
-Implementation of [Lox](https://github.com/munificent/craftinginterpreters) in Rust for studying purposes.
+Implementation of [Lox](https://github.com/munificent/craftinginterpreters) bytecode in Rust for studying purposes.
 
 # Notable differences to cLox
 
