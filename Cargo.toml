@@ -6,4 +6,12 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# see more about features at https://doc.rust-lang.org/1.30.0/book/first-edition/conditional-compilation.html
+
+[features]
+
+default = ["log_level_error"]
+log_level_debug = []
+log_level_error = []
+
 [dependencies]

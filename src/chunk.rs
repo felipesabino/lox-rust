@@ -1,5 +1,5 @@
-type Value = f64;
-type ConstantIndex = usize;
+pub type Value = f64;
+pub type ConstantIndex = usize;
 
 pub enum Instruction {
   Constant(ConstantIndex),

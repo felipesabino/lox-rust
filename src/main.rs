@@ -1,8 +1,10 @@
 mod chunk;
 mod debug;
+mod vm;
 
 use chunk::{Chunk, Instruction};
 use debug::Debug;
+use vm::VM;
 
 fn main() {
 
@@ -14,4 +16,7 @@ fn main() {
     chunk.add_instruction(Instruction::Return, 123);
 
     chunk.disassemble("test chunk");
+
+    let mut vm = VM::new(&chunk);
+    vm.run();
 }

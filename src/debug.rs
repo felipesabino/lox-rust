@@ -17,7 +17,7 @@ impl Debug for Chunk {
   }
 }
 
-fn disassemble_instruction(chunk: &Chunk, instruction: &Instruction, offset: usize) {
+pub fn disassemble_instruction(chunk: &Chunk, instruction: &Instruction, offset: usize) {
 
   print!("{:04} ", offset);
 
