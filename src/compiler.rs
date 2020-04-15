@@ -9,19 +9,19 @@ impl Compiler {
   }
 
   pub fn compile(&mut self, source: String) {
-    let mut scanner = Scanner::new(source);
-    let mut line: usize = usize::max_value();
+    let mut scanner = Scanner::new(&source);
+    let mut line: usize = usize::max_value(); //it could be any value > 0, really
     loop {
       let token = scanner.scan_token();
       if token.line != line {
-        print!("{:04}", token.line);
+        print!("{:04} ", token.line);
         line = token.line;
       } else {
         print!("   | ");
       }
 
-      let lexeme = &scanner.source[token.start..token.length - token.start];
-      print!("{:?} {}", token.r#type, lexeme);
+      let lexeme = &token.source[token.start..token.length + token.start];
+      println!("{:?} {}", token.r#type, lexeme);
 
       match token.r#type {
         TokenType::Eof => break,

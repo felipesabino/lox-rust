@@ -25,9 +25,10 @@ pub enum TokenType {
     Eof
   }
 
-  pub struct Token {
-    pub start: usize,
+  pub struct Token<'lifetime> {
     pub length: usize,
     pub line: usize,
+    pub start: usize,
+    pub source: &'lifetime String,
     pub r#type: TokenType,
   }
