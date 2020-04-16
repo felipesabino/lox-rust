@@ -21,7 +21,7 @@ impl<'lifetime> Scanner<'lifetime> {
   fn is_digit(value: char) -> bool {
     return match value {
       '1'..='9' => true,
-      _ => false
+      _ => return false,
     };
   }
 
@@ -39,7 +39,7 @@ impl<'lifetime> Scanner<'lifetime> {
 
   fn advance(&mut self) -> char {
     self.current = self.current + 1;
-    return self.source.chars().nth(self.current)
+    return self.source.chars().nth(self.current - 1)
       .expect("[scanner] trying to advance to out of bounds character"); //TODO: improve error handling
   }
 
@@ -96,7 +96,6 @@ impl<'lifetime> Scanner<'lifetime> {
   fn skip_whitespace(&mut self) {
     loop {
       let c = self.peek();
-      print!("ws '{}'[{}]", c, self.current);
       match c {
         ' ' | '\r' | '\t' => {
           self.advance();
@@ -140,6 +139,7 @@ impl<'lifetime> Scanner<'lifetime> {
   }
 
   fn number(&mut self) -> Token {
+
     loop {
       if Self::is_digit(self.peek()) {
         self.advance();
@@ -240,10 +240,7 @@ impl<'lifetime> Scanner<'lifetime> {
         return self.make_token(token_type);
       },
       '"' => return self.string(),
-      _ => {
-        print!("WAT '{}'", c);
-        return self.error_token();
-      },
+      _ => return self.error_token(),
     }
   }
 }
