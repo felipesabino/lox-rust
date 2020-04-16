@@ -61,7 +61,7 @@ fn repl() {
         io::stdout().flush().unwrap();
         let mut input = String::new();
         match io::stdin().read_line(&mut input) {
-            Ok(bytes) => {
+            Ok(_) => {
                 let mut compiler = Compiler::new();
                 compiler.compile(input);
             },

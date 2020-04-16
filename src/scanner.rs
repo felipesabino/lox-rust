@@ -1,5 +1,4 @@
 use crate::token::{Token,TokenType};
-use std::str::{Chars};
 
 pub struct Scanner<'lifetime> {
   source: &'lifetime String,
