@@ -1,4 +1,5 @@
 use crate::token::{Token,TokenType};
+use std::str::{Chars};
 
 pub struct Scanner<'lifetime> {
   source: &'lifetime String,
@@ -44,6 +45,7 @@ impl<'lifetime> Scanner<'lifetime> {
   }
 
   fn peek(&self) -> char {
+    if self.is_at_end() { return '\0'; }
     return self.source.chars().nth(self.current)
       .expect("[scanner] trying to peek out of bounds character"); //TODO: improve error handling
   }
@@ -121,8 +123,60 @@ impl<'lifetime> Scanner<'lifetime> {
     }
   }
 
+  fn check_keyword(&self, start: usize, rest: &str, token_type: TokenType) -> TokenType {
+    // TODO: all of this looks horrible, surely there is a better way to compare chars and mplement this trie
+    let mut offset = 0;
+    let end = rest.len();
+    loop {
+      let mut chars = self.source.chars();
+      let mut rest = rest.chars();
+      let curr_char = chars.nth(self.start + start + offset).unwrap();
+      let curr_checked = rest.nth(offset).unwrap();
+      if curr_char != curr_checked {
+        return TokenType::Identifier
+      }
+      offset = offset + 1;
+      if offset >= end - start {
+        return token_type;
+      }
+    }
+  }
+
   fn identifier_type(&mut self) -> TokenType {
-    return TokenType::Identifier;
+
+    let c = self.source.chars().nth(self.start)
+      .expect("[scanner] trying to peek identifier out of bounds character"); //TODO: improve error handling
+
+    return match c {
+      'a' => self.check_keyword(1, "nd", TokenType::And),
+      'c' => self.check_keyword(1, "lass", TokenType::Class),
+      'e' => self.check_keyword(1, "lse", TokenType::Else),
+      'i' => self.check_keyword(1, "f", TokenType::If),
+      'n' => self.check_keyword(1, "il", TokenType::Nil),
+      'o' => self.check_keyword(1, "r", TokenType::Or),
+      'p' => self.check_keyword(1, "rint", TokenType::Print),
+      'r' => self.check_keyword(1, "eturn", TokenType::Return),
+      's' => self.check_keyword(1, "uper", TokenType::Super),
+      'v' => self.check_keyword(1, "ar", TokenType::Var),
+      'w' => self.check_keyword(1, "hile", TokenType::While),
+      'f' => {
+        match self.peek_next() {
+          'a' => self.check_keyword(2, "lse", TokenType::False),
+          'o' => self.check_keyword(2, "r", TokenType::For),
+          'u' => self.check_keyword(2, "n", TokenType::Fun),
+          _ => TokenType::Identifier
+        }
+      },
+      't' => {
+        match self.peek_next() {
+          'h' => self.check_keyword(2, "is", TokenType::This),
+          'r' => self.check_keyword(2, "ue", TokenType::True),
+          _ => TokenType::Identifier
+        }
+      },
+      _ => TokenType::Identifier,
+    }
+
   }
 
   fn identifier(&mut self) -> Token {
