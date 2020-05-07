@@ -20,7 +20,10 @@ impl Compiler {
         print!("   | ");
       }
 
-      let lexeme = &token.source[token.start..token.length + token.start];
+      let lexeme = match token.r#type {
+        TokenType::Error => token.error,
+        _ =>  &token.source[token.start..token.length + token.start],
+      };
       println!("{:?} {}", token.r#type, lexeme);
 
       match token.r#type {

@@ -31,4 +31,5 @@ pub enum TokenType {
     pub start: usize,
     pub source: &'lifetime String,
     pub r#type: TokenType,
+    pub error: &'static str,
   }

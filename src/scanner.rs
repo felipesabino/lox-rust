@@ -73,25 +73,20 @@ impl<'lifetime> Scanner<'lifetime> {
       start: self.start,
       source: self.source,
       r#type: r#type,
+      error: "", // HACK: got beat up by rust string manipulation and "cannot return value referencing temporary value" errors
     }
   }
 
-  fn error_token(&self) -> Token {
-    // Token {
-    //   length: message.len(),
-    //   line: self.line,
-    //   start: 0,
-    //   source: message,
-    //   r#type: TokenType::Error,
-    // }
-    // TODO: how to return reference to a message?
+  fn error_token(&self, message: &'static str) -> Token {
     Token {
-      length: 0,
+      length: message.len(),
       line: self.line,
       start: 0,
       source: self.source,
       r#type: TokenType::Error,
+      error: message,
     }
+
   }
 
   fn skip_whitespace(&mut self) {
@@ -231,7 +226,7 @@ impl<'lifetime> Scanner<'lifetime> {
     }
 
     if self.is_at_end() {
-      return self.error_token();
+      return self.error_token("unbounded string");
     }
 
     //closing quote
@@ -293,7 +288,7 @@ impl<'lifetime> Scanner<'lifetime> {
         return self.make_token(token_type);
       },
       '"' => return self.string(),
-      _ => return self.error_token(),
+      _ => return self.error_token("Unexpected character."),
     }
   }
 }
